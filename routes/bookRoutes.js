@@ -131,4 +131,7 @@ router.put("/:id", authMiddleware.verifyAdmin, bookController.updateBook);
  */
 router.delete("/:id", authMiddleware.verifyAdmin, bookController.deleteBook);
 
+// Rota para obter os 3 livros com maior estoque
+router.get("/top-stock", bookController.getTopStockBooks);
+
 module.exports = router;
