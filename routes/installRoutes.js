@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { User, Book, Author } = require("../models");
+const User = require("../models/User");
+const Book = require("../models/Book");
+const Author = require("../models/Author");
 const bcrypt = require("bcryptjs");
 
 // Dados iniciais
@@ -98,7 +100,17 @@ const books = [
   },
 ];
 
-// Rota para inicialização
+/**
+ * @swagger
+ * /api/install:
+ *   get:
+ *     summary: Initialize the database with default data
+ *     responses:
+ *       200:
+ *         description: Initial data inserted successfully
+ *       500:
+ *         description: Error initializing database
+ */
 router.get("/", async (req, res) => {
   try {
     // Limpar coleções existentes
@@ -108,7 +120,7 @@ router.get("/", async (req, res) => {
 
     // Criar autores
     const authorDocs = await Author.insertMany(
-      authors.map((author) => ({ name: author.name }))
+      authors.map((author) => ({ name: author.name, bio: author.bio }))
     );
 
     // Criar livros
@@ -125,7 +137,8 @@ router.get("/", async (req, res) => {
     // Criar usuário admin
     const hashedPassword = await bcrypt.hash("admin123", 10);
     await User.create({
-      username: "AdminDefault",
+      name: "AdminDefault",
+      email: "admin@roleadm.com",
       password: hashedPassword,
       role: "admin",
     });

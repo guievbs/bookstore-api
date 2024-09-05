@@ -1,7 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
-const authMiddleware = require("../middleware/authMiddleware");
+const { body } = require("express-validator");
+
+// Middleware de validação
+const validateRegister = [
+  body("name").notEmpty().withMessage("Name is required"),
+  body("email").isEmail().withMessage("Invalid email format"),
+  body("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+];
+
+const validateLogin = [
+  body("email").isEmail().withMessage("Invalid email format"),
+  body("password").notEmpty().withMessage("Password is required"),
+];
 
 /**
  * @swagger
@@ -17,17 +31,20 @@ const authMiddleware = require("../middleware/authMiddleware");
  *             properties:
  *               name:
  *                 type: string
+ *                 description: The name of the user
  *               email:
  *                 type: string
+ *                 description: The email of the user
  *               password:
  *                 type: string
+ *                 description: The password of the user
  *     responses:
  *       201:
  *         description: User registered successfully
  *       400:
  *         description: Bad request
  */
-router.post("/register", authController.registerUser);
+router.post("/register", validateRegister, authController.register);
 
 /**
  * @swagger
@@ -43,14 +60,16 @@ router.post("/register", authController.registerUser);
  *             properties:
  *               email:
  *                 type: string
+ *                 description: The email of the user
  *               password:
  *                 type: string
+ *                 description: The password of the user
  *     responses:
  *       200:
  *         description: User logged in successfully
  *       401:
  *         description: Unauthorized
  */
-router.post("/login", authController.loginUser);
+router.post("/login", validateLogin, authController.login);
 
 module.exports = router;
