@@ -1,5 +1,3 @@
-Aqui está um exemplo de arquivo `README.md` para o seu projeto de API de livraria. Adapte conforme necessário para refletir a configuração e funcionalidades específicas do seu projeto.
-
 # Bookstore API
 
 ## Descrição
