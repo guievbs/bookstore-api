@@ -139,7 +139,7 @@ A API de Livraria é um projeto back-end desenvolvido com Node.js, Express e Mon
 
 ## Documentação
 
-A documentação da API está disponível no Swagger UI. Você pode acessá-la em `http://localhost:3000/api-docs`.
+A documentação da API está disponível no Swagger UI. Você pode acessá-la em `http://localhost:3000/docs`.
 
 ## Testes
 
