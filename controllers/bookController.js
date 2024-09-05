@@ -58,3 +58,13 @@ exports.deleteBook = async (req, res) => {
     res.status(500).json({ error: "Erro ao deletar livro" });
   }
 };
+
+// Obtém os 3 livros com maior estoque
+exports.getTopStockBooks = async (req, res) => {
+  try {
+    const topBooks = await Book.find().sort({ stock: -1 }).limit(3);
+    res.status(200).json(topBooks);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao obter livros com maior estoque" });
+  }
+};
