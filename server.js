@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerFile = require("./swagger-output.json");
 const app = express();
 require("dotenv").config();
 
@@ -31,6 +32,7 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));
