@@ -7,17 +7,11 @@ const { body, param } = require("express-validator");
 // Middleware de validação
 const validateCreateOrder = [
   body("books").isArray().withMessage("Books must be an array"),
-  body("totalPrice")
-    .isFloat({ gt: 0 })
-    .withMessage("Total price must be a positive number"),
 ];
 
 const validateUpdateOrder = [
   param("id").isMongoId().withMessage("Invalid order ID"),
   body("books").isArray().withMessage("Books must be an array"),
-  body("totalPrice")
-    .isFloat({ gt: 0 })
-    .withMessage("Total price must be a positive number"),
 ];
 
 // Certifique-se de que todos os handlers de rotas estejam corretamente definidos
@@ -29,6 +23,12 @@ router.post(
 );
 
 router.get("/", authMiddleware.verifyAdmin, orderController.getAllOrders);
+
+router.get(
+  "/user-orders",
+  authMiddleware.authMiddleware,
+  orderController.getUserOrders
+);
 
 router.get(
   "/:id",
